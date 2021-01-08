@@ -4,6 +4,9 @@ import Router from 'vue-router'
 // Containers
 const TheContainer = () => import('@/containers/TheContainer')
 
+// Login
+const Login = ()=> import('@/views/authens/Login')
+
 // Views
 const Dashboard = () => import('@/views/Dashboard')
 
@@ -50,7 +53,7 @@ const Modals = () => import('@/views/notifications/Modals')
 // Views - Pages
 const Page404 = () => import('@/views/pages/Page404')
 const Page500 = () => import('@/views/pages/Page500')
-const Login = () => import('@/views/pages/Login')
+// const Login = () => import('@/views/pages/Login')
 const Register = () => import('@/views/pages/Register')
 
 // Users
@@ -325,16 +328,31 @@ function configRoutes () {
           name: 'Page500',
           component: Page500
         },
-        {
-          path: 'login',
-          name: 'Login',
-          component: Login
-        },
+        // {
+        //   path: 'login',
+        //   name: 'Login',
+        //   component: Login
+        // },
         {
           path: 'register',
           name: 'Register',
           component: Register
         }
+      ]
+    },
+    {
+      path: '/authen',
+      redirect: '/authen/login',
+      name: 'authen',
+      component: {
+        render (c) { return c('router-view') }
+      },
+      children: [
+        {
+          path: 'login',
+          name: 'Login',
+          component: Login
+        },
       ]
     }
   ]
