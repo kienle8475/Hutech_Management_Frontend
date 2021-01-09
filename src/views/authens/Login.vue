@@ -57,15 +57,38 @@ export default {
   }),
   methods: {
     login() {
-      swal.fire({
-        toast: true,
-        position: "top-end",
-        icon: "warning",
-        title: "  Login success",
-        showConfirmButton: false,
-        showCloseButton: false,
-        timer: 1500
-      });
+      // call login action
+      this.$store
+        .dispatch("login", {
+          username: this.username,
+          password: this.password
+        })
+        .then(() => {
+          console.log(this.username);
+          swal.fire({
+            toast: true,
+            position: "top-end",
+            icon: "success",
+            title: "  Login success",
+            showConfirmButton: false,
+            showCloseButton: false,
+            timer: 1500
+          });
+          this.$router.push("/dashboard");
+        })
+        .catch(e => {
+          this.loading = false;
+          swal.fire({
+            toast: true,
+            position: "top-end",
+            icon: "warning",
+            title: "Error",
+            text: e.message,
+            showConfirmButton: false,
+            showCloseButton: false,
+            timer: 2000
+          });
+        });
     }
   }
 };

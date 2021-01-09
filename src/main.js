@@ -16,6 +16,32 @@ Vue.use(Vuetify);
 Vue.use(VueSpinners);
 Vue.prototype.$log = console.log.bind(console)
 
+// if any of the routes in ./router.js has a meta named 'requiresAuth: true'
+// then check if the user is logged in before routing to this path:
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) { 
+    if (!store.getters.loggedIn) {
+      next({ name: "Login" });
+    } else {
+      next()
+    }
+  }
+  // else if any of the routes in ./router.js has a meta named 'requiresLogged: true'
+  // then check if the user is logged in; if true continue to home page else continue routing to the destination path
+  else if (to.matched.some(record => record.meta.requiresLogged)) {
+    if (store.getters.loggedIn) {
+      next({ name: "Dashboard" });
+    } else {
+      next();
+    }
+  }
+  else {
+    next();
+  }
+})
+
+
+
 new Vue({
   el: '#app',
   router,
