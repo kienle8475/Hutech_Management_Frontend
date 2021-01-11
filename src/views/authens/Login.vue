@@ -5,12 +5,12 @@
         <CCol md="8">
           <CCardGroup>
             <CCard class="p-4">
-                <CCardHeader>Login to Hutech Management</CCardHeader>
+                <CCardHeader>LOGIN TO HUTECH MANAGEMENT</CCardHeader>
               <CCardBody>
                 <CForm>
                     <v-form v-on:submit.prevent="login" v-model="valid" lazy-validation>
                         <v-container>
-                            <p class="text-muted">Sign In to your account</p>
+                            <p class="text-muted text-center"></p>
                             <CInput 
                                 placeholder="Username" 
                                 autocomplete="username " 

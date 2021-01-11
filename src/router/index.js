@@ -7,6 +7,9 @@ const TheContainer = () => import('@/containers/TheContainer')
 // Login
 const Login = ()=> import('@/views/authens/Login')
 
+// Employees Management
+const Employees = () => import('@/views/employees/Employees')
+
 // Views
 const Dashboard = () => import('@/views/Dashboard')
 
@@ -81,6 +84,14 @@ function configRoutes () {
           path: 'dashboard',
           name: 'Dashboard',
           component: Dashboard,
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: 'employees',
+          name: 'Employees',
+          component: Employees,
           meta: {
             requiresAuth: true,
           },

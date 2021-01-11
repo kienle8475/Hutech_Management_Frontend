@@ -1,1 +1,66 @@
 // Here you can add other styles
+.c-sidebar {
+  background: linear-gradient(300deg, #2a32cefc, #ef3afff7);
+}
+
+.c-sidebar .c-sidebar-nav-link:hover,
+.c-sidebar .c-sidebar-nav-dropdown-toggle:hover {
+  background: #fefeff78;
+}
+.c-sidebar .c-sidebar-nav-title {
+  color: #ffffffe6;
+}
+
+//tool-bar
+.btn-add-image {
+  color: #8a93a2;
+  text-align: left;
+}
+
+.button-toolbar {
+  height: 64px;
+  background: white;
+}
+.button-group {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 15px;
+}
+
+//table
+td {
+  display: table-cell;
+  vertical-align: inherit !important;
+}
+
+.data-table {
+  background: white;
+}
+
+//page loading
+.loading {
+  position: fixed;
+  left: 45%;
+  top: 50%;
+  width: 100%;
+  min-height: 100%;
+  background: transparent;
+  z-index: 1;
+  margin-top: 15px;
+}
+
+// Image crop-upload
+.vue-image-crop-upload .vicp-wrap {
+  max-width: 498px !important;
+  width: unset !important;
+}
+.vue-image-crop-upload .vicp-wrap .vicp-close .vicp-icon4 {
+  display: none !important;
+}
+.image_profile_upload {
+  display: block;
+  width: 100%;
+  border-radius: 0.25rem;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
