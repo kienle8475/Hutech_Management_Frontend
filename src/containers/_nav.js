@@ -7,7 +7,7 @@ export default [
         name: 'Dashboard',
         to: '/dashboard',
         icon: 'cil-speedometer',
-        
+
       },
       {
         _name: 'CSidebarNavTitle',
@@ -17,33 +17,33 @@ export default [
         _name: 'CSidebarNavItem',
         name: 'Campuses',
         to: '/dashboard',
-        icon: 'cil-star'
+        icon: 'cil-building'
       },
       {
         _name: 'CSidebarNavItem',
         name: 'Departments',
-        to: '/dashboard',
-        icon: 'cil-star'
+        to: '/departments',
+        icon: 'cil-Institution'
       },
       {
         _name: 'CSidebarNavItem',
         name: 'Classrooms',
         to: '/dashboard',
-        icon: 'cil-star'
+        icon: 'cil-view-quilt'
       },
       {
         _name: 'CSidebarNavItem',
         name: 'Employees',
         to: '/employees',
-        icon: 'cil-star'
+        icon: 'cil-people'
       },
       {
         _name: 'CSidebarNavItem',
         name: 'Students',
-        to: '/dashboard',
-        icon: 'cil-star'
+        to: '/students',
+        icon: 'cil-school'
       },
-      
+
       {
         _name: 'CSidebarNavTitle',
         _children: ['CONFIG']
@@ -88,7 +88,7 @@ export default [
         to: '/dashboard',
         icon: 'cil-star'
       },
-      
+
       {
         _name: 'CSidebarNavTitle',
         _children: ['Theme']
@@ -126,7 +126,7 @@ export default [
           {
             name: 'Carousels',
             to: '/base/carousels'
-          }, 
+          },
           {
             name: 'Collapses',
             to: '/base/collapses'

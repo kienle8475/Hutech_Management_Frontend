@@ -40,6 +40,7 @@
     "@coreui/vue-chartjs": "^1.0.6",
     "@saeris/vue-spinners": "^1.0.8",
     "babel-polyfill": "^6.26.0",
+    "canvas": "^2.6.1",
     "face-api.js": "^0.22.2",
     "sweetalert2": "^10.13.0",
     "vue": "~2.6.12",

@@ -2,6 +2,9 @@
 .c-sidebar {
   background: linear-gradient(300deg, #2a32cefc, #ef3afff7);
 }
+.c-sidebar .c-sidebar-brand{
+  background: #ffffff
+}
 
 .c-sidebar .c-sidebar-nav-link:hover,
 .c-sidebar .c-sidebar-nav-dropdown-toggle:hover {
@@ -63,4 +66,146 @@ td {
   border-radius: 0.25rem;
   margin-top: 15px;
   margin-bottom: 15px;
+}
+
+
+//Recognize
+.recognize{
+  background-image: linear-gradient(135deg, #52bae270, #55b7df);
+  height: 99vh;
+}
+.recognize-form{
+  margin: 20px 0px 20px 0px;
+}
+.recognize-block{
+  background-image: linear-gradient(135deg, #fdfdfd73, #93d9f5f0);
+  margin: 15px;
+  text-align: center;
+  height: 100%;
+}
+.recognize-header{
+  display: inline-block;
+  height: 60px;
+  width: 100%;
+  background: #ffffff2b;
+} 
+.recognize-camera{
+  width: 95%;
+  height: inherit;
+  margin: 20px;  
+}
+.recognize-employee{
+  padding: 0px 25px 0px 25px;
+}
+.recognize-employee-table td{
+  height: 50px;
+  border: none;
+  text-align: left;
+}
+.recoginze-button{
+  // padding: 25px 25px 25px 25px;
+}
+
+.recoginze-button button{
+  margin: 15px 15px 10px;
+  width: 48%;
+  height: 50px;
+  border: none;
+  border-radius: unset;
+  //color: #666666;
+  //background: linear-gradient(135deg, #d5ecf4, #b5e3f4);
+  //font-size: large;
+  //font-family: serif;
+}
+.recognize-footer{
+  display: inline-block;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.text-header{
+  color: #767d86fc;
+  font-size: 26px;
+  font-family: "Times New Roman";
+  padding-top: 10px;
+  margin: 0px;
+  text-transform: uppercase;
+}
+
+// department
+
+.department-input {
+  background-color: white;
+}
+.department-table {
+  padding: 20px;
+  background-color: white;
+  min-width: 50%;
+}
+.department-form {
+  padding: 5px;
+  border: 5px solid #ebedef;
+  background-color: white;
+  min-width: 50%;
+}
+
+// stdcheckin
+
+.checkin{
+  background-image: linear-gradient(180deg, #c552e270, #93c4f6a6);
+  height: 100vh;
+}
+
+.checkin-block {
+  background-image: linear-gradient(135deg, #fdfdfd73, #b2dcec78);
+  margin: 15px;
+  text-align: center;
+  height: 100%;
+}
+
+.checkin-status{
+  display: inline-block;
+  height: 80px;
+  width: 90%;
+  padding: 20px 0px 0px 0px;
+
+}
+.status-bar{
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+}
+
+.status-bar div {
+  height: 60px;
+  padding: 0px 15px 0px 0px;
+}
+.status-bar div p {
+  height: 100%;
+  background: linear-gradient(135deg, #ffffff52, #f1ebfaa3);
+}
+.status-bar div button {
+  background: #e8dff6;
+  height: 60px;
+  color: #2eb85c;
+}
+.status-bar div button.focus {
+  box-shadow: none
+}
+
+
+.camera-stream{
+  position:relative;
+}
+.camera-stream img,
+.camera-stream canvas {
+    position:absolute;
+    left:100px;
+    top:0;
+}
+.checkin-footer{
+  font-size: large;
+  padding: 20px;
+  background: #cbdff4;
+  width: -webkit-fill-available;
+  margin: 15px 30px 0px 30px;
 }

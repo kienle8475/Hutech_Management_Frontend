@@ -5,11 +5,16 @@ import Router from 'vue-router'
 const TheContainer = () => import('@/containers/TheContainer')
 
 // Login
-const Login = ()=> import('@/views/authens/Login')
+const Login = () => import('@/views/authens/Login')
 
 // Employees Management
 const Employees = () => import('@/views/employees/Employees')
-
+// Student Management
+const Students = () => import('@/views/students/Students')
+// Student Management
+const Departments = () => import('@/views/departments/Departments')
+// Recogize
+const Recognize = () => import('@/views/attendance/Recognize')
 // Views
 const Dashboard = () => import('@/views/Dashboard')
 
@@ -72,7 +77,7 @@ export default new Router({
   routes: configRoutes()
 })
 
-function configRoutes () {
+function configRoutes() {
   return [
     {
       path: '/',
@@ -89,9 +94,25 @@ function configRoutes () {
           },
         },
         {
+          path: 'departments',
+          name: 'Departments',
+          component: Departments,
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
           path: 'employees',
           name: 'Employees',
           component: Employees,
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: 'students',
+          name: 'Students',
+          component: Students,
           meta: {
             requiresAuth: true,
           },
@@ -101,7 +122,7 @@ function configRoutes () {
           redirect: '/theme/colors',
           name: 'Theme',
           component: {
-            render (c) { return c('router-view') }
+            render(c) { return c('router-view') }
           },
           children: [
             {
@@ -157,7 +178,7 @@ function configRoutes () {
           redirect: '/base/cards',
           name: 'Base',
           component: {
-            render (c) { return c('router-view') }
+            render(c) { return c('router-view') }
           },
           children: [
             {
@@ -247,7 +268,7 @@ function configRoutes () {
           redirect: '/buttons/standard-buttons',
           name: 'Buttons',
           component: {
-            render (c) { return c('router-view') }
+            render(c) { return c('router-view') }
           },
           children: [
             {
@@ -277,7 +298,7 @@ function configRoutes () {
           redirect: '/icons/coreui-icons',
           name: 'CoreUI Icons',
           component: {
-            render (c) { return c('router-view') }
+            render(c) { return c('router-view') }
           },
           children: [
             {
@@ -302,7 +323,7 @@ function configRoutes () {
           redirect: '/notifications/alerts',
           name: 'Notifications',
           component: {
-            render (c) { return c('router-view') }
+            render(c) { return c('router-view') }
           },
           children: [
             {
@@ -329,7 +350,7 @@ function configRoutes () {
       redirect: '/pages/404',
       name: 'Pages',
       component: {
-        render (c) { return c('router-view') }
+        render(c) { return c('router-view') }
       },
       children: [
         {
@@ -359,7 +380,7 @@ function configRoutes () {
       redirect: '/authen/login',
       name: 'authen',
       component: {
-        render (c) { return c('router-view') }
+        render(c) { return c('router-view') }
       },
       children: [
         {
@@ -368,6 +389,11 @@ function configRoutes () {
           component: Login
         },
       ]
+    },
+    {
+      path: '/recognize',
+      name: 'Recognize',
+      component: Recognize,
     }
   ]
 }

@@ -9,26 +9,26 @@
       ></ring-loader>
     </div>
     <div v-show="!loading">
-      <CCol class="employee-table">
+      <CCol class="student-table">
         <CCardHeader>
-          <h4>Employees Manager</h4>
+          <h4>Students Manager</h4>
         </CCardHeader>
         <CButtonToolbar class="button-toolbar">
           <CButtonGroup size="sm" class="mx-1 button-group">
             <td>
               <CButton class="mx-2" color="success" @click="toggled_add = true"
-                >New Employee</CButton
+                >New Student</CButton
               >
               <CButton
                 class="mx-2"
                 color="info"
                 variant="outline"
-                @click="importEmployees()"
-                >Import Employees</CButton
+                @click="importStudent()"
+                >Import Students</CButton
               >
               <CButton class="mx-2" color="success" variant="outline">
                 <JsonCSV
-                  :data="Employees"
+                  :data="Students"
                   :name="dataFile"
                   :fiels="export_fields"
                   >Export</JsonCSV
@@ -39,9 +39,10 @@
         </CButtonToolbar>
         <CCardBody class="data-table">
           <CDataTable
-            :items="Employees"
+            :items="Students"
             :fields="fields"
             table-filter
+            column-filter
             items-per-page-select
             :items-per-page="5"
             sorter
@@ -76,7 +77,7 @@
             <template #Edit="{ item }">
               <td class="py-2">
                 <CButton
-                  @click="(toggled_update = true), getEmployeeDetail(item)"
+                  @click="(toggled_update = true), getStudentDetail(item)"
                   color="info"
                   square
                   size="sm"
@@ -88,7 +89,7 @@
             <template #Disable="{ item }">
               <td class="py-2" v-if="item.status == 1">
                 <CButton
-                  @click="disableEmployee(item)"
+                  @click="disableStudent(item)"
                   color="warning"
                   square
                   size="sm"
@@ -98,7 +99,7 @@
               </td>
               <td class="py-2" v-else>
                 <CButton
-                  @click="disableEmployee(item)"
+                  @click="disableStudent(item)"
                   color="success"
                   square
                   size="sm"
@@ -110,7 +111,7 @@
             <template #Delete="{ item }">
               <td class="py-2">
                 <CButton
-                  @click="deleteEmployee(item)"
+                  @click="deleteStudent(item)"
                   color="danger"
                   square
                   size="sm"
@@ -122,15 +123,15 @@
           </CDataTable>
         </CCardBody>
       </CCol>
-      <!-- Modal Create Employee -->
+      <!-- Modal Create Student -->
       <CModal
-        title="Create Employee"
+        title="Create Student"
         color="success"
         :closeOnBackdrop="false"
         :show.sync="toggled_add"
       >
         <CForm>
-          <CInput placeholder="ID" v-model="employee_id">
+          <CInput placeholder="ID" v-model="student_id">
             <template #prepend-content></template>
           </CInput>
           <CInput placeholder="First Name" v-model="first_name">
@@ -158,16 +159,16 @@
           </select>
           <select
             class="custom-select custom-select-md mb-3"
-            v-model="department"
-            placeholder="Department"
+            v-model="school_class"
+            placeholder="Class"
           >
-            <option value disabled selected>Department</option>
+            <option value disabled selected>Class</option>
             <option
-              v-for="option in Departments"
-              v-bind:value="option.department_id"
-              v-bind:key="option.department_id"
+              v-for="option in Classes"
+              v-bind:value="option.class_id"
+              v-bind:key="option.class_id"
             >
-              {{ option.department_name }}
+              {{ option.class_id }}
             </option>
           </select>
           <CInput
@@ -223,23 +224,23 @@
             >Cancel</CButton
           >
           <CButton
-            @click="(toggled_add = false), createEmployee()"
+            @click="(toggled_add = false), createStudent()"
             color="success"
             v-bind:disabled="!profile_isvalid"
             >Submit</CButton
           >
         </template>
       </CModal>
-      <!-- Modal Create Employee -->
-      <!-- Modal Update Employee -->
+      <!-- Modal Create Student -->
+      <!-- Modal Update Student -->
       <CModal
-        title="Update Employee"
+        title="Update Student"
         color="info"
         :closeOnBackdrop="false"
         :show.sync="toggled_update"
       >
         <CForm>
-          <CInput placeholder="ID" v-model="employee_id_update" disabled>
+          <CInput placeholder="ID" v-model="student_id_update" disabled>
             <template #prepend-content></template>
           </CInput>
           <CInput placeholder="First Name" v-model="first_name_update">
@@ -267,16 +268,16 @@
           </select>
           <select
             class="custom-select custom-select-md mb-3"
-            v-model="department_update"
-            placeholder="Department"
+            v-model="school_class_update"
+            placeholder="Class"
           >
-            <option value disabled selected>Department</option>
+            <option value disabled selected>Class</option>
             <option
-              v-for="option in Departments"
-              v-bind:value="option.department_id"
-              v-bind:key="option.department_id"
+              v-for="option in Classes"
+              v-bind:value="option.class_id"
+              v-bind:key="option.class_id"
             >
-              {{ option.department_name }}
+              {{ option.class_id }}
             </option>
           </select>
           <CInput
@@ -330,13 +331,13 @@
             >Cancel</CButton
           >
           <CButton
-            @click="(toggled_update = false), updateEmployee()"
+            @click="(toggled_update = false), updateStudent()"
             color="success"
             >Submit</CButton
           >
         </template>
       </CModal>
-      <!-- Modal Update Employee -->
+      <!-- Modal Update Student -->
     </div>
   </div>
 </template>
@@ -349,33 +350,37 @@ import * as faceapi from "face-api.js";
 import myUpload from "vue-image-crop-upload/upload-2.vue";
 import "babel-polyfill"; // es6 shim
 
-var Employees = [];
-var Departments = [];
+var Students = [];
+var Classes = [];
 const fields = [
-  { key: "employee_id", label: "ID" },
+  { key: "student_id", label: "User" },
   { key: "full_name", label: "Full Name" },
   { key: "birthday", label: "Birth", sorter: false },
   { key: "gender", label: "Gender", sorter: false },
+  {
+    key: "school_class",
+    label: "Class",
+    sorter: false,
+  },
   {
     key: "department_name",
     label: "Department",
     sorter: false,
   },
   { key: "phone_number", label: "Phone", sorter: false },
-  { key: "email", label: "Email", sorter: false },
   { key: "profile_image", sorter: false },
-  { key: "status", label: "Status", sorter: false },
+  { key: "status", label: "Status", sorter: false, _style: "width:2%" },
   { key: "Edit", sorter: false, _style: "width:2%" },
   { key: "Disable", sorter: false, _style: "width:3%" },
   { key: "Delete", sorter: false, _style: "width:3%" },
 ];
 const export_fields = [
-  "employee_id",
+  "student_id",
   "first_name",
   "last_name",
   "birthday",
   "gender",
-  "department_name",
+  "school_class",
   "phone_number",
   "profile_image",
   "status",
@@ -386,14 +391,14 @@ const genders = [
 ];
 
 export default {
-  name: "Employee",
+  name: "Students",
   data() {
     return {
-      Employees: Employees.map((employee) => {
-        return { ...employee };
+      Students: Students.map((Student) => {
+        return { ...Student };
       }),
-      Departments: Departments.map((Department) => {
-        return { ...Department };
+      Classes: Classes.map((Class) => {
+        return { ...Class };
       }),
 
       fields, // field show table
@@ -401,15 +406,15 @@ export default {
       export_fields, // export csv
       loading: true, //first loading
       loading_api: false, // face api library loading
-      dataFile: "Employees.csv", // export csv file name
-      toggled_add: false, // modal create employee
-      toggled_update: false, // modal update employee
+      dataFile: "Students.csv", // export csv file name
+      toggled_add: false, // modal create Student
+      toggled_update: false, // modal update Student
       toggled_image: false, // show profile image
       profile_isvalid: false, // check profile is valid
       imgDataUrl: "", // data image crop
 
       // Create Data
-      employee_id: "",
+      student_id: "",
       first_name: "",
       last_name: "",
       gender: "",
@@ -418,10 +423,10 @@ export default {
       email: "",
       phone_number: "",
       profile_image: "",
-      department: "",
+      school_class: "",
 
       // Update Data
-      employee_id_update: "",
+      student_id_update: "",
       first_name_update: "",
       last_name_update: "",
       gender_update: "",
@@ -430,7 +435,7 @@ export default {
       email_update: "",
       phone_number_update: "",
       profile_image_update: "",
-      department_update: "",
+      school_class_update: "",
     };
   },
   components: {
@@ -460,14 +465,14 @@ export default {
         timer: 2500,
       });
     },
-    getEmployee() {
+    getStudents() {
       getAPI
-        .get("employees/", {
+        .get("students/", {
           headers: { Authorization: `Bearer ${this.$store.state.accessToken}` },
         })
         .then((response) => {
-          this.Employees = response.data;
-          this.getDepartment();
+          this.Students = response.data;
+          this.getClass();
           this.loading = false;
           console.log("Data loading success");
         })
@@ -484,9 +489,9 @@ export default {
           });
         });
     },
-    getEmployeeDetail(item) {
-      console.log(item.employee_id);
-      this.employee_id_update = item.employee_id;
+    getStudentDetail(item) {
+      console.log(item.student_id);
+      this.student_id_update = item.student_id;
       this.first_name_update = item.first_name;
       this.last_name_update = item.last_name;
       this.gender_update = item.gender;
@@ -495,11 +500,11 @@ export default {
       this.email_update = item.email;
       this.phone_number_update = item.phone_number;
       this.profile_image_update = item.profile_image;
-      this.department_update = item.department;
+      this.school_class_update = item.school_class;
     },
-    createEmployee() {
+    createStudent() {
       var data = {
-        employee_id: this.employee_id,
+        student_id: this.student_id,
         first_name: this.first_name,
         last_name: this.last_name,
         gender: this.gender,
@@ -508,25 +513,25 @@ export default {
         email: this.email,
         phone_number: this.phone_number,
         profile_image: this.imgDataUrl,
-        department: this.department,
+        school_class: this.school_class,
       };
       getAPI
-        .post("/employees/", data)
+        .post("/students/", data)
         .then((response) => {
-          this.getEmployee();
+          this.getStudents();
           console.log(response.data);
-          this.successAlert("Employee Created");
+          this.successAlert("Student Created");
           this.resetFormInput();
           this.profile_isvalid = false;
         })
         .catch((e) => {
           console.log(e);
-          this.errorAlert("Employee ID invalid or already exists");
+          this.errorAlert("Student ID invalid or already exists");
         });
     },
-    updateEmployee() {
+    updateStudent() {
       var data = {
-        employee_id: this.employee_id_update,
+        student_id: this.student_id_update,
         first_name: this.first_name_update,
         last_name: this.last_name_update,
         gender: this.gender_update,
@@ -534,20 +539,20 @@ export default {
         address: this.address_update,
         email: this.email_update,
         phone_number: this.phone_number_update,
-        department: this.department_update,
+        school_class: this.school_class_update,
       };
       getAPI
-        .patch(`/employees/${data.employee_id}/`, data)
+        .patch(`/students/${data.student_id}/`, data)
         .then((response) => {
-          this.getEmployee();
-          this.successAlert("Employee Updated");
+          this.getStudents();
+          this.successAlert("Student Updated");
         })
         .catch((e) => {
           console.log(e);
           this.errorAlert(e);
         });
     },
-    disableEmployee(item) {
+    disableStudent(item) {
       var status, status_name;
       if (item.status == 0) {
         status = 1;
@@ -557,7 +562,7 @@ export default {
         status_name = "Disabled";
       }
       var data = {
-        employee_id: item.employee_id,
+        student_id: item.student_id,
         first_name: item.first_name,
         last_name: item.last_name,
         gender: item.gender,
@@ -565,21 +570,21 @@ export default {
         address: item.address,
         email: item.email,
         phone_number: item.phone_number,
-        department: item.department,
+        school_class: item.school_class,
         status: status,
       };
       getAPI
-        .put(`/employees/${item.employee_id}/`, data)
+        .put(`/students/${item.student_id}/`, data)
         .then((response) => {
-          this.getEmployee();
-          this.successAlert(`Employee ${status_name}`);
+          this.getStudents();
+          this.successAlert(`Student ${status_name}`);
         })
         .catch((e) => {
           console.log(e);
           this.errorAlert(e);
         });
     },
-    deleteEmployee(item) {
+    deleteStudent(item) {
       swal
         .fire({
           toast: true,
@@ -592,14 +597,14 @@ export default {
         })
         .then((result) => {
           if (result.value) {
-            var deleteIndex = this.Employees.findIndex(
-              (index) => index.employee_id == item.employee_id
+            var deleteIndex = this.Students.findIndex(
+              (index) => index.student_id == item.student_id
             );
-            this.Employees.splice(deleteIndex, 1);
+            this.Students.splice(deleteIndex, 1);
             getAPI
-              .delete(`employees/${item.employee_id}/`)
+              .delete(`students/${item.student_id}/`)
               .then((response) => {
-                this.successAlert("Employee Deleted");
+                this.successAlert("Student Deleted");
               })
               .catch((e) => {
                 console.log(e);
@@ -608,17 +613,17 @@ export default {
           }
         });
     },
-    getDepartment() {
+    getClass() {
       getAPI
-        .get("departments/", {
+        .get("classes/", {
           headers: { Authorization: `Bearer ${this.$store.state.accessToken}` },
         })
         .then((response) => {
-          this.Departments = response.data;
+          this.Classes = response.data;
         });
     },
     resetFormInput() {
-      (this.employee_id = ""),
+      (this.student_id = ""),
         (this.first_name = ""),
         (this.last_name = ""),
         (this.gender = ""),
@@ -627,7 +632,7 @@ export default {
         (this.email = ""),
         (this.phone_number = ""),
         (this.profile_image = ""),
-        (this.department = ""),
+        (this.school_class = ""),
         (this.imgDataUrl = "");
     },
     toggle_image() {
@@ -649,7 +654,7 @@ export default {
       console.log(status);
       console.log("field: " + field);
     },
-    importEmployees() {
+    importStudents() {
       swal.fire({
         toast: true,
         position: "top-end",
@@ -703,7 +708,7 @@ export default {
   },
 
   created() {
-    this.getEmployee();
+    this.getStudents();
   },
 };
 </script>
