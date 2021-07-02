@@ -337,7 +337,7 @@ export default {
     ]).then(() => {
       setTimeout(() => {
         this.loading = false;
-      }, 100);
+      }, 10000);
     });
     this.getDataLabelAndDescription();
   },

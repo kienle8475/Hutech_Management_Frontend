@@ -510,6 +510,7 @@ export default {
         profile_image: this.imgDataUrl,
         department: this.department,
       };
+      console.log(data);
       getAPI
         .post("/employees/", data)
         .then((response) => {
@@ -701,7 +702,6 @@ export default {
       }
     },
   },
-
   created() {
     this.getEmployee();
   },
